@@ -3,6 +3,7 @@
 [![npm][npm-image]][npm-url]
 [![build][travis-image]][travis-url]
 [![download][download-image]][download-url]
+[![commitizen][commitizen-image]][commitizen-url]
 
 [npm-image]: https://img.shields.io/npm/v/@fatesigner/i18n.svg?color=red
 [npm-url]: https://npmjs.com/package/@fatesigner/i18n
@@ -10,6 +11,8 @@
 [travis-url]: https://travis-ci.com/fatesigner/i18n
 [download-image]: https://img.shields.io/npm/dw/@fatesigner/i18n.svg?color=green
 [download-url]: https://npmjs.com/package/@fatesigner/i18n
+[commitizen-image]: https://img.shields.io/badge/commitizen-friendly-green.svg
+[commitizen-url]: http://commitizen.github.io/cz-cli/
 
 Web 国际化插件，基于 [kazupon/vue-i18n](https://github.com/kazupon/vue-i18n). 
 

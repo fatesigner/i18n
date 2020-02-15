@@ -3,7 +3,7 @@
  */
 
 import { CreateSyncHook, CreateSyncWaterfallHook } from './hook';
-import { I18nConfig, I18nHookType, I18nKeys, LanguageType } from './interfaces';
+import { I18nConfig, I18nKeys, LanguageType } from './interfaces';
 
 export function CreateI18nKeys(locale: any | any[]): any {
   if (typeof Proxy === 'function') {

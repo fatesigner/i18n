@@ -133,9 +133,6 @@ export type LanguageType =
 
 export type I18nLocaleType = string | Record<string, any>;
 
-export type FuncResType = (...args: any[]) => any;
-export type FuncVoidType = (...args: any[]) => void;
-
 export type I18nHookType = {
   tap: (callback: (lang: LanguageType, locale: I18nLocaleType) => void) => () => void;
   tapAsync: (callback: (lang: LanguageType, locale: I18nLocaleType) => Promise<void>) => () => void;

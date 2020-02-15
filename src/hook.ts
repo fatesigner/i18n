@@ -3,7 +3,7 @@
  * 定义勾子
  */
 
-import { I18nLocaleType, I18nWaterfallHookType, I18nHookType, LanguageType } from './interfaces';
+import { I18nHookType, I18nLocaleType, I18nWaterfallHookType, LanguageType } from './interfaces';
 
 /**
  * 判断指定对象类型是否为 Promise
@@ -19,10 +19,10 @@ function isNativePromise(obj: any) {
         .replace('Function', 'Promise') // replacing Identifier
         .replace(/\(.*\)/, '()') ||
       Function.prototype.toString.call(obj.constructor).replace(/\(.*\)/, '()') ===
-      Function.prototype.toString
-        .call(/* native object */ Function)
-        .replace('Function', 'AsyncFunction') // replacing Identifier
-        .replace(/\(.*\)/, '()'))
+        Function.prototype.toString
+          .call(/* native object */ Function)
+          .replace('Function', 'AsyncFunction') // replacing Identifier
+          .replace(/\(.*\)/, '()'))
   ); // removing possible FormalParameterList
 }
 
