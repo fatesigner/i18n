@@ -1,24 +1,32 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "checkJs": false,
     "declaration": false,
-    "diagnostics": true,
+    //"outDir": "bin",
+    "diagnostics": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "jsxFactory": "h",
     "lib": [
-      "es5",
-      "es6",
-      "es2015",
-      "es2015.promise",
-      "es2017",
-      "dom"
+      "dom",
+      "ES5",
+      "ES6",
+      "ES7",
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018",
+      "ES2019",
+      "ES2020",
+      "ES2020.Promise"
     ],
+    "module": "ES2020",
+    "target": "ES2020",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noStrictGenericChecks": true,
@@ -29,30 +37,34 @@
     "sourceMap": true,
     "strict": false,
     "strictNullChecks": false,
+    "strictPropertyInitialization": false,
     "esModuleInterop": true,
+    "baseUrl": ".",
     "rootDir": "./src",
-    "module": "ESNext",
-    "target": "ES2019",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "types": [
       "jest",
-      "node"
+      "node",
+      "reflect-metadata"
     ],
     "typeRoots": [
       "node_modules/@types",
-      "src/typings"
-    ],
-    "baseUrl": ".",
-    "paths": {
-    }
+      "src/types"
+    ]
   },
   "include": [
     "src/**/*.ts",
-    "src/typings/**/*.ts"
+    "src/**/*.tsx",
+    "src/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    "src/**/__tests__/*.ts"
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/__tests__/*.ts"
   ]
 }

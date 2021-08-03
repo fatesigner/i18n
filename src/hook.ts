@@ -1,9 +1,4 @@
-/**
- * hook
- * 定义勾子
- */
-
-import { I18nHookType, I18nLocaleType, I18nWaterfallHookType, LanguageType } from './interfaces';
+import { I18nHookType, I18nLanguageType, I18nLocaleType, I18nWaterfallHookType } from './core';
 
 /**
  * 判断指定对象类型是否为 Promise
@@ -23,15 +18,15 @@ function isNativePromise(obj: any) {
           .call(/* native object */ Function)
           .replace('Function', 'AsyncFunction') // replacing Identifier
           .replace(/\(.*\)/, '()'))
-  ); // removing possible FormalParameterList
+  );
 }
 
 /**
  * 创建普通勾子，不处理返回值
  */
-export function CreateSyncHook(): I18nHookType {
-  type Func = (lang: LanguageType, locale: any) => void;
-  type AsyncFunc = (lang: LanguageType, locale: any) => Promise<void>;
+export function createSyncHook(): I18nHookType {
+  type Func = (lang: I18nLanguageType, locale: any) => void;
+  type AsyncFunc = (lang: I18nLanguageType, locale: any) => Promise<void>;
 
   const hooks: (Func | AsyncFunc)[] = [];
 
@@ -64,11 +59,11 @@ export function CreateSyncHook(): I18nHookType {
 
 /**
  * 创建瀑布流勾子
- * 一个个向下执行，如果上一个 tap 有返回值，那么下一个 tap 的传入参数是上一个 tap 的返回值
+ * 逐个向下执行，如果上一个 tap 有返回值，那么下一个 tap 的传入参数是上一个 tap 的返回值
  */
-export function CreateSyncWaterfallHook(): I18nWaterfallHookType {
-  type Func = (lang: LanguageType, locale: I18nLocaleType) => I18nLocaleType;
-  type AsyncFunc = (lang: LanguageType, locale: I18nLocaleType) => Promise<I18nLocaleType>;
+export function createSyncWaterfallHook(): I18nWaterfallHookType {
+  type Func = (lang: I18nLanguageType, locale: I18nLocaleType) => I18nLocaleType;
+  type AsyncFunc = (lang: I18nLanguageType, locale: I18nLocaleType) => Promise<I18nLocaleType>;
 
   const hooks: (Func | AsyncFunc)[] = [];
 

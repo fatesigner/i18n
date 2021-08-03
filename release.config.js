@@ -1,6 +1,7 @@
 const czConfig = require('./.cz-config');
 
 const releaseRules = [
+  { breaking: true, release: 'major' },
   { type: 'docs', scope: 'README', release: 'patch' },
   { type: 'feat', release: 'minor' },
   { type: 'fix', release: 'patch' },
@@ -25,9 +26,9 @@ czConfig.types.forEach((x) => {
 
 module.exports = {
   debug: true,
-  branch: 'master',
   dryRun: false,
   preset: 'angular',
+  branches: ['+([0-9])?(.{+([0-9]),x}).x', 'master', 'next', 'next-major', { name: 'beta', prerelease: true }, { name: 'alpha', prerelease: true }],
   plugins: [
     [
       '@semantic-release/commit-analyzer',
@@ -51,7 +52,7 @@ module.exports = {
     [
       '@semantic-release/git',
       {
-        assets: ['CHANGELOG.md', 'package.json', 'package-lock.json'],
+        assets: ['docs/CHANGELOG.md', 'package.json', 'package-lock.json'],
         message: 'chore(🤖):${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ],

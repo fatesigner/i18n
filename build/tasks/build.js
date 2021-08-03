@@ -3,50 +3,39 @@
  * copy src files to output path
  */
 
-const Gulp = require('gulp');
-const Path = require('path');
-const Merge = require('merge2');
-const Ts = require('gulp-typescript');
+const fs = require('fs');
+const path = require('path');
+const gulp = require('gulp');
 
-Gulp.task('build', async function () {
-  const ENV = require('../env')();
+require('./build-cjs');
+require('./build-esm');
+require('./build-examples');
+require('./build-umd');
+require('./clean');
 
-  // build esm
-  const TsProject = Ts.createProject(Path.join(ENV.rootPath, 'tsconfig.json'), {
-    declaration: true,
-    declarationFiles: true
-  });
-  const tsResult = await Gulp.src(
-    [
-      Path.join(ENV.srcPath, '**/*.ts'),
-      '!' + Path.join(ENV.srcPath, 'interfaces.ts'),
-      '!' + Path.join(ENV.srcPath, '**/*.d.ts'),
-      '!' + Path.join(ENV.srcPath, '**/*.spec.ts')
-    ],
-    {
-      allowEmpty: true
+gulp.task(
+  'build',
+  gulp.series('clean', gulp.parallel('build-cjs', 'build-esm', 'build-umd', 'build-examples'), async function () {
+    const env = require('../env')();
+
+    // Copy npm publish files to output
+    await new Promise((resolve) => {
+      gulp
+        .src(['README.md'].map((x) => path.join(env.rootPath, x)))
+        .pipe(gulp.dest(env.outputPath))
+        .on('end', resolve);
+    });
+
+    // Write package.json file to output
+    const pkg = require('../../package.json');
+    if (pkg.scripts) {
+      pkg.scripts = Object.keys(pkg.scripts).reduce((prev, key) => {
+        if (key !== 'prepare' || pkg.scripts[key].indexOf('husky install') < 0) {
+          prev[key] = pkg.scripts[key];
+        }
+        return prev;
+      }, {});
     }
-  ).pipe(TsProject());
-  Merge([tsResult.dts.pipe(Gulp.dest(ENV.outputPath)), tsResult.js.pipe(Gulp.dest(ENV.outputPath))]);
-
-  // copy other files to output
-  await Gulp.src([Path.join(ENV.srcPath, '**/*'), '!' + Path.join(ENV.srcPath, '**/*.ts')], {
-    base: ENV.srcPath
-  }).pipe(Gulp.dest(ENV.outputPath));
-
-  // copy interfaces.ts
-  await Gulp.src(
-    [
-      Path.join(ENV.srcPath, 'typings/**/*'),
-      Path.join(ENV.srcPath, '**/*.d.ts'),
-      Path.join(ENV.srcPath, 'interfaces.ts')
-    ],
-    {
-      allowEmpty: true,
-      base: ENV.srcPath
-    }
-  ).pipe(Gulp.dest(ENV.outputPath));
-
-  // copy npm publish files to output
-  await Gulp.src(['package.json', 'README.md'].map((x) => Path.join(ENV.rootPath, x))).pipe(Gulp.dest(ENV.outputPath));
-});
+    fs.writeFileSync(path.join(env.outputPath, 'package.json'), JSON.stringify(pkg, null, 2), { encoding: 'utf8' });
+  })
+);
